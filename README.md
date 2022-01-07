@@ -19,7 +19,7 @@
 ### Roman to Integer
             -- Buid a map <roman_char, corresponding_int>
             -- Loop from back to front on input string
-            -- if s[i] < s[i+1'
+            -- if s[i] < s[i+1]
                    -- res-=map.get(s[i])
                else
                    -- res+=map.get(s[i])
@@ -41,3 +41,44 @@
              next imediate number > than 4 in righ side is 5, at index 6
              swap(4,5) -- 1,5,8,5,7,6,4,3,1
              reverse(4, 8)-- 1,5,8,5,1,3,4,6,7
+### Mutiply 2 string 
+            for(int i = n-1; i>=0; i--) {
+                        for(int j=m-1;j>=0; j--) {
+                            res[i+j+1]+= (num1.charAt(i) - '0')*(num2.charAt(j) - '0');
+                            int curr = res[i+j+1];
+                            res[i+j] += curr/10;
+                            res[i+j+1]=curr%10;
+
+                        }
+            }
+### Group Anagram
+            -- compute the char[26] array for each str in String[]
+            -- put in hasmap where key is computed char[26] array annd value is List<Str>
+            -- repeat above for all str in str[]            
+### Add two binary number
+        BigInteger x = new BigInteger(a, 2);
+        BigInteger y = new BigInteger(b, 2);
+        BigInteger zero = new BigInteger("0",2);
+        
+        while(y.compareTo(zero) != 0) {
+            BigInteger ans = x.xor(y);
+            y = x.and(y).shiftLeft(1);
+            x = ans;
+        }
+        return x.toString(2);
+        
+ ### merge sorted array
+      public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int i = m-1;
+        int j = n-1;
+        for(int k = m+n-1; k >=0; k--) {
+            if(j < 0) {
+                break;
+            }
+            if(i >=0 && nums1[i] > nums2[j]) {
+                nums1[k] = nums1[i--];
+            } else {
+                 nums1[k] = nums2[j--];
+            }
+        }
+    }
