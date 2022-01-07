@@ -82,3 +82,11 @@
             }
         }
     }
+### valid palindram
+            -- two pointer approach,
+            -- remove the unwanted character, use Character.isLetterOrDigit()
+            
+### Subarray sum equals k
+            map.put<prefixSum, index>
+            if(map.contains(prefixSum -k) then start = map.get(prefixSum -k) +1, end =i
+            
