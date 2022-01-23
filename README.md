@@ -90,3 +90,123 @@
             map.put<prefixSum, index>
             if(map.contains(prefixSum -k) then start = map.get(prefixSum -k) +1, end =i
             
+### permutation II
+          private void permuteUniqueHelper(Map<Integer, Integer> map, Integer[] p, int i, List<List<Integer>> result) {
+            if (i == p.length)
+                result.add(Arrays.asList(Arrays.copyOf(p, p.length)));
+            for (int key : map.keySet()) {
+                if (map.get(key) > 0) {
+                    map.put(key, map.get(key) - 1);
+                    p[i] = key;
+                    permuteUniqueHelper(map, p, i + 1, result);
+                    map.put(key, map.get(key) + 1);
+                }
+            }
+        }
+        
+### Combination Sum
+     private void combinationSumUtil(int[] arr, int idx, List<Integer> local, List<List<Integer>> ans, int target){
+        if(target == 0) {
+            if(!ans.contains(local))
+                ans.add(new ArrayList(local));
+            return;
+        }
+        if(target < 0) return;
+        
+        for(int i=idx; i<arr.length; i++) {
+            
+            if(i > idx && arr[i] == arr[i-1]) continue;
+            
+            local.add(arr[i]);
+            combinationSumUtil(arr, i+1, local, ans, target-arr[i]);
+            local.remove(local.size() -1);
+        }
+    }
+    
+### privious smaller elements
+ 
+             int[] previousSmallerElement(int arr[]) {
+                Stack<Integer> stack = new Stack<>();
+                int len = arr.length;
+                if (len == 0) return null;
+                int pse[] = new int[len];
+                stack.push(arr[0]);
+                pse[0] = -1;
+
+                for (int i = 1; i < len; i++) {
+                  while (!stack.isEmpty() && arr[i] <= arr[stack.peek()]) {
+                    stack.pop();
+                  }
+                  if (stack.isEmpty()) {
+                    pse[i] = -1;
+                  } else {
+                    pse[i] = stack.peek();
+                  }
+                  stack.push(i);
+                }
+                return pse;
+              }
+              
+ ### Largest. area histogram
+          int largestRectangleHistogram(int[] arr) {
+            int[] pse = previousSmallerElement(arr);
+
+            int[] nse = nextSmallerElement(arr);
+            int maxArea = Integer.MIN_VALUE;
+            for (int i = 0; i < arr.length; i++) {
+                        maxArea = Math.max(maxArea, (nse[i] - pse[i] - 1) * arr[i]);
+            }
+            return maxArea;
+          }
+          
+### generate subset
+               // TC - O(n*2^n)
+              static void generateSubSet(int idx, int[] nums, List<Integer> local, List<List<Integer>> ans) {
+                ans.add(new ArrayList<>(local));
+                for (int i = idx; i < nums.length; i++) {
+                  local.add(nums[i]);
+                  generateSubSet(i + 1, nums, local, ans);
+                  local.remove(local.size() - 1);
+                }
+              }
+              
+ ### remove K digit to make smaller number
+ 
+    Stack<Character> stack = new Stack<>();
+    for (int i = 0; i < n; i++) {
+      Character c = str.charAt(i);
+      while (!stack.isEmpty() && k > 0 && stack.peek() > c) {
+        k--;
+        stack.pop();
+      }
+      stack.push(c);
+    }
+    while (!stack.isEmpty() && k > 0) {
+      stack.pop();
+      k--;
+    }
+    
+### Rat in a maze
+              private static boolean solvemazeUti(int[][] maze, int n, int i, int j, int[][] sol) {
+                // Base condition, when it reached at the end,
+                if (i == n - 1 && j == n - 1 && maze[i][j] == 1) {
+                  sol[i][j] = 1;
+                  return true;
+                }
+                // do in the different direction, (i+1,j), (i-1,j), (i, j-1), (i, j+1)
+                if (isSafe(maze, n, i, j, sol)) {
+                  sol[i][j] = 1;
+                  if (solvemazeUti(maze, n, i - 1, j, sol))
+                    return true;
+                  if (solvemazeUti(maze, n, i + 1, j, sol))
+                    return true;
+                  if (solvemazeUti(maze, n, i, j - 1, sol))
+                    return true;
+                  if (solvemazeUti(maze, n, i, j + 1, sol))
+                    return true;
+                  // if non of the above works then backtrack
+                  sol[i][j] = 0;
+                  return false;
+                }
+                return false;
+              }
